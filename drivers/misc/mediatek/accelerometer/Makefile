@@ -27,3 +27,4 @@ obj-$(CONFIG_MTK_BMA056)   +=  bma056/
 obj-$(CONFIG_MTK_LSM6DS3)   +=  lsm6ds3/
 obj-$(CONFIG_MTK_BMA250_NEW)   +=  bma250_new/
 obj-$(CONFIG_MTK_LSM6DS0_ACC)   +=  lsm6ds0_acc/
+obj-$(CONFIG_MTK_KXCJK1013)   +=  KXCJK1013/
