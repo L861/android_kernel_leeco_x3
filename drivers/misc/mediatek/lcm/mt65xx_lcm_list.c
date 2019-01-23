@@ -42,6 +42,10 @@ LCM_DRIVER *lcm_driver_list[] = {
 	&nt36760_dsi_vdo_sgmicro_sgm3804_lcm_drv,
 #endif
 
+#if defined(AMOI_R63419_WQHD_TRULY_PHANTOM_2K_VDO_OK)
+	&r63419_wqhd_truly_phantom_vdo_lcm_drv,
+#endif
+
 #if defined(OTM1284A_HD720_DSI_VDO_TM)
 	&otm1284a_hd720_dsi_vdo_tm_lcm_drv,
 #endif
