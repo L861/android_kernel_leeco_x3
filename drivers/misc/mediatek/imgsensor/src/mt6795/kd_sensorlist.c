@@ -11,6 +11,7 @@
 #include <linux/dma-mapping.h>
 #include <linux/xlog.h>
 #include <mach/sync_write.h>
+#include <linux/seq_file.h>
 
 #include "../camera/kd_camera_hw.h"
 /* #include <asm/system.h> */
