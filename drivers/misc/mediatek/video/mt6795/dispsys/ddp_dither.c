@@ -1,4 +1,3 @@
-#include <linux/printk.h>
 #include "cmdq_record.h"
 
 #include "ddp_reg.h"
@@ -18,7 +17,7 @@ void disp_dither_init(disp_dither_id_t id, unsigned int dither_bpp, void *cmdq)
 	} else if (id == DISP_DITHER1) {
 		reg_base = DISP_REG_GAMMA_DITHER_0;
 	} else {
-		pr_info("[DITHER] disp_dither_init: invalid dither hardware ID = %d\n", id);
+		printk(KERN_ERR "[DITHER] disp_dither_init: invalid dither hardware ID = %d\n", id);
 		return;
 	}
 
@@ -47,10 +46,10 @@ void disp_dither_init(disp_dither_id_t id, unsigned int dither_bpp, void *cmdq)
 		DISP_REG_MASK(cmdq, DITHER_REG(reg_base, 16), 0x20202020, ~0);
 		DISP_REG_MASK(cmdq, DITHER_REG(reg_base, 0), 0x00000001, ~0);
 	} else if (dither_bpp > 24) {
-		pr_info("[DITHER] High depth LCM (bpp = %d), no dither\n", dither_bpp);
+		printk("[DITHER] High depth LCM (bpp = %d), no dither\n", dither_bpp);
 		enable = 1;
 	} else {
-		pr_info("[DITHER] invalid dither bpp = %d\n", dither_bpp);
+		printk("[DITHER] invalid dither bpp = %d\n", dither_bpp);
 		/* Bypass dither */
 		DISP_REG_MASK(cmdq, DITHER_REG(reg_base, 0), 0x00000000, ~0);
 		enable = 0;

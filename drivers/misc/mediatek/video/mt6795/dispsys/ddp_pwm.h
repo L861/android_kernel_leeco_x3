@@ -26,10 +26,4 @@ int disp_bls_set_backlight(int level_1024);
 
 void disp_pwm_test(const char *cmd, char *debug_output);
 
-extern void lm3533_backlight_disable() ;
-extern void lm3533_backlight_enable() ;
-extern void lm3533_backlight_linear_mapping(u8 val);
-extern void lm3533_backlight_current(u8 val) ;
-extern void lm3533_backlight_brightness(u8 val) ;
-extern void lm3533_backlight_pwm(u8 val);
 #endif
