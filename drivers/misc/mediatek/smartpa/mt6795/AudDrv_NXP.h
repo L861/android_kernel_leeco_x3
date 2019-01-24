@@ -36,13 +36,13 @@
 #include <linux/aee.h>
 #include <linux/xlog.h>
 #include <linux/i2c.h>
-#include <linux/gpio.h>  //sang
+//#include <linux/gpio.h>  //sang
 #include <mach/mt_boot.h>
-#include <mach/mt_gpio.h>
+//#include <mach/mt_gpio.h>
 //#include <cust_gpio_usage.h>
 #include <mach/eint.h>
-#include <mach/mt_pm_ldo.h>
-#include <linux/cdev.h>
+//#include <mach/mt_pm_ldo.h>
+//#include <linux/cdev.h>
 
 
 /*****************************************************************************
