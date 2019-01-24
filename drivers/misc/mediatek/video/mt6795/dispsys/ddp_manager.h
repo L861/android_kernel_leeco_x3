@@ -50,6 +50,7 @@ typedef enum
 	DDP_IRQ_DSI0_EXT_TE =			MAKE_DDP_IRQ_BIT(DISP_MODULE_DSI0,4),
 	DDP_IRQ_DSI0_CMD_DONE =		 	MAKE_DDP_IRQ_BIT(DISP_MODULE_DSI0,2),
 
+	DDP_IRQ_DPI_VSYNC = MAKE_DDP_IRQ_BIT(DISP_MODULE_DPI, 0),
     DDP_IRQ_UNKNOW =                MAKE_DDP_IRQ_BIT(DISP_MODULE_UNKNOWN,0),
 
 }DDP_IRQ_BIT;
@@ -396,6 +397,8 @@ int dpmgr_path_enable_irq(disp_path_handle dp_handle, void * cmdq_handle, DDP_IR
 */
 disp_ddp_path_config *dpmgr_path_get_last_config(disp_path_handle dp_handle);
 
+void dpmgr_get_input_address(disp_path_handle dp_handle, unsigned long *addr);
 void dpmgr_get_input_buffer(disp_path_handle dp_handle, unsigned long * addr);
 
+int dpmgr_factory_mode_test(int module_name, void *cmdqhandle, void *config);
 #endif

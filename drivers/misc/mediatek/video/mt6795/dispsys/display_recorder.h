@@ -4,6 +4,7 @@
 #include <linux/types.h>
 #include <linux/mmprofile.h>
 #include "disp_event.h"
+#include "ddp_info.h"
 typedef enum
 {
 	DPREC_EVENT_CMDQ_SET_DIRTY = 0xff00,
@@ -172,4 +173,11 @@ int dprec_mmp_dump_wdma_layer(void *wdma_layer,unsigned int wdma_num);
 void dprec_logger_frame_seq_begin(unsigned int session_id,unsigned frm_sequence);
 void dprec_logger_frame_seq_end(unsigned int session_id,unsigned frm_sequence);
 
+int dprec_mmp_dump_ovl_layer(OVL_CONFIG_STRUCT *ovl_layer,unsigned int l,unsigned int session);
+
+extern unsigned int gCapturePriLayerEnable;
+extern unsigned int gCaptureWdmaLayerEnable;
+extern unsigned int gCapturePriLayerDownX;
+extern unsigned int gCapturePriLayerDownY;
+extern unsigned int gCapturePriLayerNum;
 #endif
