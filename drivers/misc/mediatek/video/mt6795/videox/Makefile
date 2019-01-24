@@ -8,8 +8,9 @@ obj-$(CONFIG_MTK_FB) += mtkfb_console.o             \
          primary_display.o                        \
          disp_lcm.o                                 \
          disp_utils.o                               \
+	mtkfb_fence.o\
 	mtk_disp_mgr.o\
-	fbconfig_kdebug_x.o\
+	fbconfig_kdebug_rome.o\
 	mtk_mira.o \
 	mtk_ovl.o \
 	disp_helper.o

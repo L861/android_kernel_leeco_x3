@@ -9,44 +9,43 @@ void DBG_OnTeDelayDone(void);
 void DBG_OnLcdDone(void);
 
 #include <linux/mmprofile.h>
-extern struct MTKFB_MMP_Events_t {
-	MMP_Event MTKFB;
-	MMP_Event CreateSyncTimeline;
-	MMP_Event PanDisplay;
-	MMP_Event SetOverlayLayer;
-	MMP_Event SetOverlayLayers;
-	MMP_Event SetMultipleLayers;
-	MMP_Event CreateSyncFence;
-	MMP_Event IncSyncTimeline;
-	MMP_Event SignalSyncFence;
-	MMP_Event TrigOverlayOut;
-	MMP_Event UpdateScreenImpl;
-	MMP_Event VSync;
-	MMP_Event UpdateConfig;
-	MMP_Event ConfigOVL;
-	MMP_Event ConfigAAL;
-	MMP_Event ConfigMemOut;
-	MMP_Event ScreenUpdate;
-	MMP_Event CaptureFramebuffer;
-	MMP_Event RegUpdate;
-	MMP_Event EarlySuspend;
-	MMP_Event DispDone;
-	MMP_Event DSICmd;
-	MMP_Event DSIIRQ;
-	MMP_Event EsdCheck;
-	MMP_Event WaitVSync;
-	MMP_Event LayerDump;
-	MMP_Event Layer[4];
-	MMP_Event OvlDump;
-	MMP_Event FBDump;
-	MMP_Event DSIRead;
-	MMP_Event GetLayerInfo;
-	MMP_Event LayerInfo[4];
-	MMP_Event IOCtrl;
-	MMP_Event Debug;
+extern struct MTKFB_MMP_Events_t
+{
+    MMP_Event MTKFB;
+    MMP_Event CreateSyncTimeline;
+    MMP_Event PanDisplay;
+    MMP_Event SetOverlayLayer;
+    MMP_Event SetOverlayLayers;
+    MMP_Event SetMultipleLayers;
+    MMP_Event CreateSyncFence;
+    MMP_Event IncSyncTimeline;
+    MMP_Event SignalSyncFence;
+    MMP_Event TrigOverlayOut;
+    MMP_Event UpdateScreenImpl;
+    MMP_Event VSync;
+    MMP_Event UpdateConfig;
+    MMP_Event ConfigOVL;
+    MMP_Event ConfigAAL;
+    MMP_Event ConfigMemOut;
+    MMP_Event ScreenUpdate;
+    MMP_Event CaptureFramebuffer;
+    MMP_Event RegUpdate;
+    MMP_Event EarlySuspend;
+    MMP_Event DispDone;
+    MMP_Event DSICmd;
+    MMP_Event DSIIRQ;
+    MMP_Event EsdCheck;
+    MMP_Event WaitVSync;
+    MMP_Event LayerDump;
+    MMP_Event Layer[4];
+    MMP_Event OvlDump;
+    MMP_Event FBDump;
+    MMP_Event DSIRead;
+    MMP_Event GetLayerInfo;
+    MMP_Event LayerInfo[4];
+    MMP_Event IOCtrl;
+    MMP_Event Debug;
 } MTKFB_MMP_Events;
-
-extern unsigned int g_mobilelog;
 
 #ifdef MTKFB_DBG
 #include "disp_drv_log.h"
@@ -66,7 +65,7 @@ static inline void dbg_print(int level, const char *fmt, ...)
 	if (level <= MTKFB_DBG) {
 		if (!MAX_DBG_MESSAGES || dbg_cnt < MAX_DBG_MESSAGES) {
 			va_list args;
-			int ind = dbg_indent;
+			int	ind = dbg_indent;
 			unsigned long flags;
 
 			spin_lock_irqsave(&dbg_spinlock, flags);
@@ -86,50 +85,50 @@ static inline void dbg_print(int level, const char *fmt, ...)
 
 #define DBGPRINT	dbg_print
 
-#define DBGENTER(level)	do {					\
-		dbg_print(level, "%s: Enter\n", __func__);	\
-		dbg_indent++;					\
+#define DBGENTER(level)	do { \
+		dbg_print(level, "%s: Enter\n", __FUNCTION__); \
+		dbg_indent++; \
 	} while (0)
 
-#define DBGLEAVE(level)	do {					\
-		dbg_indent--;					\
-		dbg_print(level, "%s: Leave\n", __func__);	\
+#define DBGLEAVE(level)	do { \
+		dbg_indent--; \
+		dbg_print(level, "%s: Leave\n", __FUNCTION__); \
 	} while (0)
 
-/* Debug Macros */
+// Debug Macros
 
 #define MTKFB_DBG_EVT_NONE    0x00000000
-#define MTKFB_DBG_EVT_FUNC    0x00000001	/* Function Entry     */
-#define MTKFB_DBG_EVT_ARGU    0x00000002	/* Function Arguments */
-#define MTKFB_DBG_EVT_INFO    0x00000003	/* Information        */
+#define MTKFB_DBG_EVT_FUNC    0x00000001  /* Function Entry     */
+#define MTKFB_DBG_EVT_ARGU    0x00000002  /* Function Arguments */
+#define MTKFB_DBG_EVT_INFO    0x00000003  /* Information        */
 
 #define MTKFB_DBG_EVT_MASK    (MTKFB_DBG_EVT_NONE)
 
-#define MSG(evt, fmt, args...)						\
-	do {								\
-		if ((MTKFB_DBG_EVT_##evt) & MTKFB_DBG_EVT_MASK) {	\
-			DISP_LOG_PRINT(ANDROID_LOG_INFO, "DBG", fmt, ##args); \
-		}							\
-	} while (0)
+#define MSG(evt, fmt, args...)                              \
+    do {                                                    \
+        if ((MTKFB_DBG_EVT_##evt) & MTKFB_DBG_EVT_MASK) {   \
+            DISP_LOG_PRINT(ANDROID_LOG_INFO, "DBG", fmt, ##args);                            \
+        }                                                   \
+    } while (0)
 
-#define MSG_FUNC_ENTER(f)   MSG(FUNC, "<FB_ENTER>: %s\n", __func__)
-#define MSG_FUNC_LEAVE(f)   MSG(FUNC, "<FB_LEAVE>: %s\n", __func__)
+#define MSG_FUNC_ENTER(f)   MSG(FUNC, "<FB_ENTER>: %s\n", __FUNCTION__)
+#define MSG_FUNC_LEAVE(f)   MSG(FUNC, "<FB_LEAVE>: %s\n", __FUNCTION__)
 
 
-#else				/* MTKFB_DBG */
+#else	/* MTKFB_DBG */
 
 #define DBGPRINT(level, format, ...)
 #define DBGENTER(level)
 #define DBGLEAVE(level)
 
-/* Debug Macros */
+// Debug Macros
 
 #define MSG(evt, fmt, args...)
 #define MSG_FUNC_ENTER()
 #define MSG_FUNC_LEAVE()
-void _debug_pattern(unsigned int mva, unsigned int va, unsigned int w, unsigned int h, unsigned int linepitch,
-		    unsigned int color, unsigned int layerid, unsigned int bufidx);
-bool get_ovl1_to_mem_on(void);
+void _debug_pattern(unsigned int mva, unsigned int va, unsigned int w, unsigned int h, unsigned int linepitch, unsigned int color, unsigned int layerid, unsigned int bufidx);
+bool get_ovl1_to_mem_on();
 
-#endif				/* MTKFB_DBG */
-#endif				/* __MTKFB_DEBUG_H */
+#endif	/* MTKFB_DBG */
+
+#endif /* __MTKFB_DEBUG_H */
