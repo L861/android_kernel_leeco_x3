@@ -33,11 +33,9 @@
 #include <mach/battery_meter.h>
 #include <mach/battery_meter_hal.h>
 #include "cust_battery_meter.h"
-#ifdef CONFIG_MTK_MULTI_BAT_PROFILE_SUPPORT
-#include "cust_battery_meter_table_multi_profile.h"
-#else
+
 #include "cust_battery_meter_table.h"
-#endif
+
 #include "cust_pmic.h"
 #include "mach/mtk_rtc.h"
 
