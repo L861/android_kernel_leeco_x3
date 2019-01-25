@@ -9,78 +9,79 @@
 #include "cmdq_record.h"
 
 typedef enum {
-    ENGINE_UFOE  = DISP_MODULE_UFOE,    /* add wdma0 after UFOE */
-    ENGINE_OVL0  = DISP_MODULE_OVL0 ,	/* add wdma0 after OVL0 */
-    ENGINE_OVL1  = DISP_MODULE_OVL1,    /* add wdma1 after OVL1*/
-    ENGINE_OD    = DISP_MODULE_OD,      /* add wdma0 after OD */
-}ENGINE_DUMP;
+	ENGINE_UFOE = DISP_MODULE_UFOE,	/* add wdma0 after UFOE */
+	ENGINE_OVL0 = DISP_MODULE_OVL0,	/* add wdma0 after OVL0 */
+	ENGINE_OVL1 = DISP_MODULE_OVL1,	/* add wdma1 after OVL1 */
+	ENGINE_OD = DISP_MODULE_OD,	/* add wdma0 after OD */
+} ENGINE_DUMP;
 
 #define MAKE_DDP_IRQ_BIT(module, shift)	  ((module<<24)|(0x1<<shift))
-#define IRQBIT_MODULE(irqbit)             (irqbit >>24)
+#define IRQBIT_MODULE(irqbit)             (irqbit >> 24)
 #define IRQBIT_BIT(irqbit)                (irqbit & 0xffffff)
 
 /* IRQ and module are combined to consist DDP IRQ */
-typedef enum
-{
-    DDP_IRQ_OVL0_FRAME_COMPLETE =   MAKE_DDP_IRQ_BIT(DISP_MODULE_OVL0,1),
-    DDP_IRQ_AAL_OUT_END_FRAME =     MAKE_DDP_IRQ_BIT(DISP_MODULE_AAL,1),
+typedef enum {
+	DDP_IRQ_OVL0_FRAME_COMPLETE = MAKE_DDP_IRQ_BIT(DISP_MODULE_OVL0, 1),
+	DDP_IRQ_AAL_OUT_END_FRAME = MAKE_DDP_IRQ_BIT(DISP_MODULE_AAL, 1),
 
-    DDP_IRQ_RDMA0_REG_UPDATE =      MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0,0),
-    DDP_IRQ_RDMA0_START =           MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0,1),
-    DDP_IRQ_RDMA0_DONE  =           MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0,2),
-    DDP_IRQ_RDMA0_UNDERFLOW =       MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0,3),
-    DDP_IRQ_RDMA0_TARGET_LINE =     MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0,4),
-    
-    DDP_IRQ_RDMA1_REG_UPDATE =      MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1,0),
-    DDP_IRQ_RDMA1_START =           MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1,1),
-    DDP_IRQ_RDMA1_DONE  =           MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1,2),
-    DDP_IRQ_RDMA1_UNDERFLOW =       MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1,3),
-    DDP_IRQ_RDMA1_TARGET_LINE =     MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1,4),
+	DDP_IRQ_RDMA0_REG_UPDATE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0, 0),
+	DDP_IRQ_RDMA0_START = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0, 1),
+	DDP_IRQ_RDMA0_DONE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0, 2),
+	DDP_IRQ_RDMA0_UNDERFLOW = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0, 3),
+	DDP_IRQ_RDMA0_TARGET_LINE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA0, 4),
 
-    DDP_IRQ_RDMA2_REG_UPDATE =      MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2,0),
-    DDP_IRQ_RDMA2_START =           MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2,1),
-    DDP_IRQ_RDMA2_DONE  =           MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2,2),
-    DDP_IRQ_RDMA2_UNDERFLOW =       MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2,3),
-    DDP_IRQ_RDMA2_TARGET_LINE =     MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2,4),
-    
-    DDP_IRQ_WDMA0_FRAME_COMPLETE =  MAKE_DDP_IRQ_BIT(DISP_MODULE_WDMA0,0),
-    
-    DDP_IRQ_WDMA1_FRAME_COMPLETE =  MAKE_DDP_IRQ_BIT(DISP_MODULE_WDMA1,0),
-		
-	DDP_IRQ_DSI0_EXT_TE =			MAKE_DDP_IRQ_BIT(DISP_MODULE_DSI0,4),
-	DDP_IRQ_DSI0_CMD_DONE =		 	MAKE_DDP_IRQ_BIT(DISP_MODULE_DSI0,2),
+	DDP_IRQ_RDMA1_REG_UPDATE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1, 0),
+	DDP_IRQ_RDMA1_START = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1, 1),
+	DDP_IRQ_RDMA1_DONE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1, 2),
+	DDP_IRQ_RDMA1_UNDERFLOW = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1, 3),
+	DDP_IRQ_RDMA1_TARGET_LINE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA1, 4),
+
+	DDP_IRQ_RDMA2_REG_UPDATE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2, 0),
+	DDP_IRQ_RDMA2_START = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2, 1),
+	DDP_IRQ_RDMA2_DONE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2, 2),
+	DDP_IRQ_RDMA2_UNDERFLOW = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2, 3),
+	DDP_IRQ_RDMA2_TARGET_LINE = MAKE_DDP_IRQ_BIT(DISP_MODULE_RDMA2, 4),
+
+	DDP_IRQ_WDMA0_FRAME_COMPLETE = MAKE_DDP_IRQ_BIT(DISP_MODULE_WDMA0, 0),
+
+	DDP_IRQ_WDMA1_FRAME_COMPLETE = MAKE_DDP_IRQ_BIT(DISP_MODULE_WDMA1, 0),
+
+	DDP_IRQ_DSI0_EXT_TE = MAKE_DDP_IRQ_BIT(DISP_MODULE_DSI0, 4),
+	DDP_IRQ_DSI0_CMD_DONE = MAKE_DDP_IRQ_BIT(DISP_MODULE_DSI0, 2),
 
 	DDP_IRQ_DPI_VSYNC = MAKE_DDP_IRQ_BIT(DISP_MODULE_DPI, 0),
-    DDP_IRQ_UNKNOW =                MAKE_DDP_IRQ_BIT(DISP_MODULE_UNKNOWN,0),
+	DDP_IRQ_DPI_VDE   = MAKE_DDP_IRQ_BIT(DISP_MODULE_DPI, 1),
 
-}DDP_IRQ_BIT;
+	DDP_IRQ_UNKNOW = MAKE_DDP_IRQ_BIT(DISP_MODULE_UNKNOWN, 0),
+
+} DDP_IRQ_BIT;
 
 /* dpmgr_ioctl cmd definition */
-typedef enum
-{
-//DSI operation
+typedef enum {
+/* DSI operation */
 	DDP_SWITCH_DSI_MODE = 0,
 	DDP_STOP_VIDEO_MODE = 1,
 	DDP_BACK_LIGHT = 2,
 	DDP_SWITCH_LCM_MODE = 3,
 	DDP_PHY_CLK_CHANGE = 4,
-}DDP_IOCTL_NAME;
+	DDP_DPI_FACTORY_TEST,
+} DDP_IOCTL_NAME;
 
 /* path handle */
-typedef void* disp_path_handle;
+typedef void *disp_path_handle;
 
 /* Init ddp manager, now only register irq handler to ddp_irq.c
   * return 0 if ok or -1 if fail.
 */
 int dpmgr_init(void);
 
-/* create disp path handle , it will assign mutex to this handle, and cache this handle 
-  *  to modules in scenario, and will assign default irq event to this handle. 
+/* create disp path handle , it will assign mutex to this handle, and cache this handle
+  *  to modules in scenario, and will assign default irq event to this handle.
  * return NULL if fail to create handle.
  * scenario:  used to demininate path, and  ddp manager will do operations
  *                according to current scenario.
  *  cmdq_handle :  will save current config cmdqhandle, and if cmdq is enable , will
-                            use cmdq to write regitsers.
+			    use cmdq to write regitsers.
 */
 disp_path_handle dpmgr_create_path(DDP_SCENARIO_ENUM scenario, cmdqRecHandle cmdq_handle);
 
@@ -96,11 +97,12 @@ int dpmgr_get_scenario(disp_path_handle dp_handle);
 */
 int dpmgr_modify_path_power_on_new_modules(disp_path_handle dp_handle, DDP_SCENARIO_ENUM new_scenario, int sw_only);
 int dpmgr_modify_path(disp_path_handle dp_handle, DDP_SCENARIO_ENUM new_scenario,
-			cmdqRecHandle cmdq_handle, DDP_MODE isvdomode, int sw_only);
-int dpmgr_modify_path_power_off_old_modules(DDP_SCENARIO_ENUM old_scenario, DDP_SCENARIO_ENUM new_scenario, int sw_only);
+		      cmdqRecHandle cmdq_handle, DDP_MODE isvdomode, int sw_only);
+int dpmgr_modify_path_power_off_old_modules(DDP_SCENARIO_ENUM old_scenario, DDP_SCENARIO_ENUM new_scenario,
+					    int sw_only);
 
-/* destroy path, it will release mutex to pool, and disconnect path, 
-  * clear  mapping between handle and modules. 
+/* destroy path, it will release mutex to pool, and disconnect path,
+  * clear  mapping between handle and modules.
  * return 0;
 */
 int dpmgr_destroy_path(disp_path_handle dp_handle, cmdqRecHandle cmdq_handle);
@@ -109,21 +111,21 @@ int dpmgr_destroy_path_handle(disp_path_handle dp_handle);
 
 
 /* add dump to path, for primary path , support OVL0, UFOE and OD.
-  * for sub path ,support OVL1. 
+  * for sub path ,support OVL1.
  * return 0 if success or -1 if fail.
  * dp_handle: disp path handle.
 */
 
 int dpmgr_path_memout_clock(disp_path_handle dp_handle, int clock_switch);
 
-int dpmgr_path_add_memout(disp_path_handle dp_handle, ENGINE_DUMP engine,void * cmdq_handle);
+int dpmgr_path_add_memout(disp_path_handle dp_handle, ENGINE_DUMP engine, void *cmdq_handle);
 
 /* remove dump to path. shoud match between  add dump and remove dump.
  * return 0 if success or -1 if fail.
  * dp_handle: disp path handle.
  * encmdq: 1 use command queue, 0 not.
 */
-int dpmgr_path_remove_memout(disp_path_handle dp_handle, void * cmdq_handle);
+int dpmgr_path_remove_memout(disp_path_handle dp_handle, void *cmdq_handle);
 
 
 /* query current path mutex.
@@ -143,13 +145,13 @@ DISP_MODULE_ENUM dpmgr_path_get_dst_module(disp_path_handle dp_handle);
 /* set dst module, the default dst module maybe not right, so set real dst module on this path.
  * return 0.
  * dp_handle: disp path handle.
- * dst_module(one of bellow): 
+ * dst_module(one of bellow):
  *        DISP_MODULE_DSI0
  *        DISP_MODULE_DSI1
  *        DISP_MODULE_DSIDUAL(DISP_MODULE_DSI0+DISP_MODULE_DSI1)
 *         DISP_MODULE_DPI
 */
-int dpmgr_path_set_dst_module(disp_path_handle dp_handle,DISP_MODULE_ENUM dst_module);
+int dpmgr_path_set_dst_module(disp_path_handle dp_handle, DISP_MODULE_ENUM dst_module);
 
 /* set mode type(sof source): cmd or video mode.
  * return 0.
@@ -226,7 +228,7 @@ int dpmgr_path_reset(disp_path_handle dp_handle, int encmdq);
  * dp_handle: disp path handle.
  * encmdq: 1 use command queue, 0 not.
 */
-int dpmgr_path_config(disp_path_handle dp_handle, disp_ddp_path_config * config, void * cmdq_handle);
+int dpmgr_path_config(disp_path_handle dp_handle, disp_ddp_path_config *config, void *cmdq_handle);
 
 
 /* path flush, this will enable mutex
@@ -234,7 +236,7 @@ int dpmgr_path_config(disp_path_handle dp_handle, disp_ddp_path_config * config,
  * dp_handle: disp path handle.
  * encmdq: 1 use command queue, 0 not.
 */
-int dpmgr_path_flush(disp_path_handle dp_handle,int encmdq);
+int dpmgr_path_flush(disp_path_handle dp_handle, int encmdq);
 
 
 /* this will dump modules info on this path.
@@ -305,7 +307,7 @@ int dpmgr_map_event_to_irq(disp_path_handle dp_handle, DISP_PATH_EVENT event, DD
 
 
 /* wait event, timeout (ms).
- * return 
+ * return
  *     < 0,  error.
  *     0      timeout
  *     > 0   no  timeout
@@ -370,7 +372,7 @@ int dpmgr_path_is_idle(disp_path_handle dp_handle);
 int dpmgr_path_user_cmd(disp_path_handle dp_handle, int msg, unsigned long arg, void *cmdqhandle);
 
 
-int dpmgr_path_set_parameter(disp_path_handle dp_handle, int io_evnet, void * data);
+int dpmgr_path_set_parameter(disp_path_handle dp_handle, int io_evnet, void *data);
 
 
 /* get parameter of this path.
@@ -379,7 +381,7 @@ int dpmgr_path_set_parameter(disp_path_handle dp_handle, int io_evnet, void * da
  * io_evnet: not defined.
  * data    :  data.
 */
-int dpmgr_path_get_parameter(disp_path_handle dp_handle,int io_evnet, void * data );
+int dpmgr_path_get_parameter(disp_path_handle dp_handle, int io_evnet, void *data);
 
 /* dpmgr_ioctl , it will call ioctl of ddp modules ioctl() to do some special config or setting.
  * return 0.
@@ -388,17 +390,26 @@ int dpmgr_path_get_parameter(disp_path_handle dp_handle,int io_evnet, void * dat
  * ioctl_cmd: ioctl cmd
  * params: ioctl parameters
 */
-int dpmgr_path_ioctl(disp_path_handle dp_handle, void * cmdq_handle, DDP_IOCTL_NAME ioctl_cmd, unsigned long *params);
+int dpmgr_path_ioctl(disp_path_handle dp_handle, void *cmdq_handle, DDP_IOCTL_NAME ioctl_cmd, unsigned long *params);
 
-int dpmgr_path_enable_irq(disp_path_handle dp_handle, void * cmdq_handle, DDP_IRQ_LEVEL irq_level);
+int dpmgr_path_enable_irq(disp_path_handle dp_handle, void *cmdq_handle, DDP_IRQ_LEVEL irq_level);
 /* get last config parameter of path
  * return  pointer to last config
  * dp_handle: disp path handle.
 */
 disp_ddp_path_config *dpmgr_path_get_last_config(disp_path_handle dp_handle);
 
-void dpmgr_get_input_address(disp_path_handle dp_handle, unsigned long *addr);
-void dpmgr_get_input_buffer(disp_path_handle dp_handle, unsigned long * addr);
+int dpmgr_module_notify(DISP_MODULE_ENUM module, DISP_PATH_EVENT event);
 
+void dpmgr_get_input_address(disp_path_handle dp_handle, unsigned long *addr);
+
+
+
+/* factory mode test
+ * return  0
+ * module_name: module name.
+ * encmdq: 1 use command queue, 0 not.
+ * config:
+*/
 int dpmgr_factory_mode_test(int module_name, void *cmdqhandle, void *config);
 #endif

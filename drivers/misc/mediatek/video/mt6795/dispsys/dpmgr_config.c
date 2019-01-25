@@ -1,19 +1,26 @@
 unsigned int module_list_scenario[DDP_SCENARIO_MAX][DDP_ENING_NUM] = {
-/*PRIMARY_DISP  */  {DISP_MODULE_OVL0,  DISP_MODULE_COLOR0, DISP_MODULE_AAL,      DISP_MODULE_OD,    DISP_MODULE_RDMA0,    DISP_MODULE_UFOE,     DISP_MODULE_DSI0,      -1,                   -1},
-/*PRIMARY_MEMOUT*/  {DISP_MODULE_OVL0,  DISP_MODULE_WDMA0,  -1,                   -1,                -1,                   -1,                   -1,                   -1,                   -1},
-/*PRIMARY_ALL   */  {DISP_MODULE_OVL0,  DISP_MODULE_WDMA0,  DISP_MODULE_COLOR0,   DISP_MODULE_AAL,   DISP_MODULE_OD,       DISP_MODULE_RDMA0,    DISP_MODULE_UFOE,     DISP_MODULE_DSI0,      -1},
-/*SUB_DISP      */  {DISP_MODULE_OVL1,  DISP_MODULE_COLOR1, DISP_MODULE_GAMMA,    DISP_MODULE_RDMA1, DISP_MODULE_DPI, -1,                   -1,                   -1,                   -1},
-/*SUB_MEMOUT    */  {DISP_MODULE_OVL1,  DISP_MODULE_WDMA1,  -1,                   -1,                -1,                   -1,                   -1,                   -1,                   -1},
-/*SUB_ALL       */  {DISP_MODULE_OVL1,  DISP_MODULE_WDMA1,  DISP_MODULE_COLOR1,   DISP_MODULE_GAMMA, DISP_MODULE_RDMA1,    DISP_MODULE_DPI, -1,                   -1,                   -1},
-/*MHL_DISP      */  {DISP_MODULE_OVL1,  DISP_MODULE_COLOR1, DISP_MODULE_GAMMA,    DISP_MODULE_RDMA1, DISP_MODULE_DPI,      -1,                   -1,                   -1,                   -1},
-/*RDMA0_DISP    */  {DISP_MODULE_RDMA0, DISP_MODULE_UFOE,   DISP_MODULE_DSI0, -1,                -1,                   -1,                   -1,                   -1,                   -1},
-/*RDMA2_DISP    */  {DISP_MODULE_RDMA2, DISP_MODULE_DSI0,    -1,                   -1,                -1,                   -1,                   -1,                   -1,                   -1},
-/*OD_DUMP       */  {DISP_MODULE_OVL0,  DISP_MODULE_COLOR0, DISP_MODULE_AAL,      DISP_MODULE_OD,    DISP_MODULE_WDMA0,    -1,                   -1,                   -1,                   -1},
+/*PRIMARY_DISP  */ {DISP_MODULE_OVL0, DISP_MODULE_COLOR0, DISP_MODULE_AAL, DISP_MODULE_OD, DISP_MODULE_RDMA0,
+			    DISP_MODULE_UFOE, DISP_MODULE_DSI0, -1, -1},
+/*PRIMARY_MEMOUT*/ {DISP_MODULE_OVL0, DISP_MODULE_WDMA0, -1, -1, -1, -1, -1, -1, -1},
+/*PRIMARY_ALL   */ {DISP_MODULE_OVL0, DISP_MODULE_WDMA0, DISP_MODULE_COLOR0, DISP_MODULE_AAL, DISP_MODULE_OD,
+			    DISP_MODULE_RDMA0, DISP_MODULE_UFOE, DISP_MODULE_DSI0, -1},
+/*SUB_DISP      */ {DISP_MODULE_OVL1, DISP_MODULE_COLOR1, DISP_MODULE_GAMMA, DISP_MODULE_RDMA1, DISP_MODULE_DPI,
+			    -1, -1, -1, -1},
+/*SUB_MEMOUT    */ {DISP_MODULE_OVL1, DISP_MODULE_WDMA1, -1, -1, -1, -1, -1, -1, -1},
+/*SUB_ALL       */ {DISP_MODULE_OVL1, DISP_MODULE_WDMA1, DISP_MODULE_COLOR1, DISP_MODULE_GAMMA,
+			    DISP_MODULE_RDMA1, DISP_MODULE_DPI, -1, -1, -1},
+/*MHL_DISP      */ {DISP_MODULE_OVL1, DISP_MODULE_COLOR1, DISP_MODULE_GAMMA, DISP_MODULE_RDMA1, DISP_MODULE_DPI,
+			    -1, -1, -1, -1},
+/*RDMA0_DISP    */ {DISP_MODULE_RDMA0, DISP_MODULE_UFOE, DISP_MODULE_DSI0, -1, -1, -1, -1, -1, -1},
+/*RDMA2_DISP    */ {DISP_MODULE_RDMA2, DISP_MODULE_DSI0, -1, -1, -1, -1, -1, -1, -1},
+/*OD_DUMP       */ {DISP_MODULE_OVL0, DISP_MODULE_COLOR0, DISP_MODULE_AAL, DISP_MODULE_OD, DISP_MODULE_WDMA0,
+			    -1, -1, -1, -1},
 };
+
 #define	DSI_STATUS_REG_ADDR				0xF401B01C
 #define	DSI_STATUS_IDLE_BIT			0x80000000
 
-#define 	DSI_IRQ_BIT_RD_RDY 						(0x1<<0)
+#define DSI_IRQ_BIT_RD_RDY						(0x1<<0)
 #define	DSI_IRQ_BIT_CMD_DONE					(0x1<<1)
 #define	DSI_IRQ_BIT_TE_RDY						(0x1<<2)
 #define	DSI_IRQ_BIT_VM_DONE						(0x1<<3)
@@ -42,16 +49,16 @@ unsigned int module_list_scenario[DDP_SCENARIO_MAX][DDP_ENING_NUM] = {
 #define	RDMA2_IRQ_BIT_UNDERFLOW				(0x1<<4)
 #define	RDMA2_IRQ_BIT_TARGET_LINE				(0x1<<5)
 
-#define 	OVL0_IRQ_BIT_REG_UPDATE					(0x1<<0)
-#define 	OVL0_IRQ_BIT_REG_FRAME_DONE			(0x1<<1)
-#define 	OVL0_IRQ_BIT_REG_FRAME_UNDERFLOW		(0x1<<2)
+#define	OVL0_IRQ_BIT_REG_UPDATE					(0x1<<0)
+#define	OVL0_IRQ_BIT_REG_FRAME_DONE			(0x1<<1)
+#define	OVL0_IRQ_BIT_REG_FRAME_UNDERFLOW		(0x1<<2)
 
-#define 	OVL1_IRQ_BIT_REG_UPDATE					(0x1<<0)
-#define 	OVL1_IRQ_BIT_REG_FRAME_DONE			(0x1<<1)
-#define 	OVL1_IRQ_BIT_REG_FRAME_UNDERFLOW		(0x1<<2)
+#define	OVL1_IRQ_BIT_REG_UPDATE					(0x1<<0)
+#define	OVL1_IRQ_BIT_REG_FRAME_DONE			(0x1<<1)
+#define	OVL1_IRQ_BIT_REG_FRAME_UNDERFLOW		(0x1<<2)
 
 
-//TODO: move IRQ ID define into mt_irq.h
+/* TODO: move IRQ ID define into mt_irq.h */
 #define MT_DISP_OVL0_IRQ_ID    212
 #define MT_DISP_OVL1_IRQ_ID    213
 #define MT_DISP_RDMA0_IRQ_ID   214
@@ -65,7 +72,3 @@ unsigned int module_list_scenario[DDP_SCENARIO_MAX][DDP_ENING_NUM] = {
 #define MT_DISP_GAMMA_IRQ_ID   222
 #define MT_DISP_UFOE_IRQ_ID    223
 #define MT_DISP_MUTEX_IRQ_ID   201
-
-
-
-

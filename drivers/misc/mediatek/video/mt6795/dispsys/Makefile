@@ -14,7 +14,6 @@ endif
 
 #driver
 obj-y += ddp_ovl.o
-obj-y += ddp_color.o
 obj-y += ddp_rdma.o
 obj-y += ddp_wdma.o
 obj-y += ddp_aal.o
@@ -36,10 +35,6 @@ obj-y += ddp_dump.o
 obj-y += ddp_manager.o
 obj-y += ddp_irq.o
 obj-y += ddp_info.o
-obj-y += ddp_color_format.o
-
-#obj-y += data_rgb888_64x64.o
-#obj-y += data_rgb888_64x64_golden.o
 
 obj-y += ddp_mmp.o
 obj-y += ddp_met.o

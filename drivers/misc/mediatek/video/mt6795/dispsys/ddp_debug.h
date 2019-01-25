@@ -5,6 +5,7 @@
 #include "ddp_mmp.h"
 #include "ddp_dump.h"
 
+extern unsigned int g_mobilelog;
 void ddp_debug_init(void);
 void ddp_debug_exit(void);
 

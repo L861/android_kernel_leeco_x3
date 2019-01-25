@@ -1,4 +1,4 @@
-#define LOG_TAG "MET" 
+#define LOG_TAG "MET"
 
 #include "ddp_log.h"
 
@@ -9,11 +9,11 @@
 #include "ddp_ovl.h"
 #include "ddp_rdma.h"
 
-#define DDP_IRQ_EER_ID 				(0xFFFF0000)
-#define DDP_IRQ_FPS_ID 				(DDP_IRQ_EER_ID + 1)
-#define DDP_IRQ_LAYER_FPS_ID 		(DDP_IRQ_EER_ID + 2)
-#define DDP_IRQ_LAYER_SIZE_ID 		(DDP_IRQ_EER_ID + 3)
-#define DDP_IRQ_LAYER_FORMAT_ID 	(DDP_IRQ_EER_ID + 4)
+#define DDP_IRQ_EER_ID				(0xFFFF0000)
+#define DDP_IRQ_FPS_ID				(DDP_IRQ_EER_ID + 1)
+#define DDP_IRQ_LAYER_FPS_ID		(DDP_IRQ_EER_ID + 2)
+#define DDP_IRQ_LAYER_SIZE_ID		(DDP_IRQ_EER_ID + 3)
+#define DDP_IRQ_LAYER_FORMAT_ID	(DDP_IRQ_EER_ID + 4)
 
 #define MAX_PATH_NUM (3)
 #define OVL_NUM (2)
@@ -22,7 +22,8 @@
 
 unsigned int met_tag_on = 0;
 
-static const char* const parse_color_format(DpColorFormat fmt) {
+static const char *const parse_color_format(DpColorFormat fmt)
+{
 	switch (fmt) {
 	case eBGR565:
 		return "eBGR565";
@@ -56,9 +57,10 @@ static const char* const parse_color_format(DpColorFormat fmt) {
  * Primary Display:  map to RDMA0 sof/eof ISR, for all display mode
  * External Display: map to RDMA1 sof/eof ISR, for all display mode
  * NOTICE:
- * 		for WFD, nothing we can do here
+ *		for WFD, nothing we can do here
  */
-static void ddp_disp_refresh_tag_start(unsigned int index) {
+static void ddp_disp_refresh_tag_start(unsigned int index)
+{
 	static unsigned long sBufAddr[RDMA_NUM];
 	static RDMA_BASIC_STRUCT rdmaInfo;
 	char tag_name[30] = { '\0' };
@@ -70,7 +72,8 @@ static void ddp_disp_refresh_tag_start(unsigned int index) {
 	}
 }
 
-static void ddp_disp_refresh_tag_end(unsigned int index) {
+static void ddp_disp_refresh_tag_end(unsigned int index)
+{
 	char tag_name[30] = { '\0' };
 	sprintf(tag_name, index ? "ExtDispRefresh" : "PrimDispRefresh");
 	met_tag_oneshot(DDP_IRQ_FPS_ID, tag_name, 0);
@@ -79,21 +82,22 @@ static void ddp_disp_refresh_tag_end(unsigned int index) {
 /**
  * Represent to OVL0/0VL1 each layer's refresh rate
  */
-static void ddp_inout_info_tag(unsigned int index) {
+static void ddp_inout_info_tag(unsigned int index)
+{
 	static unsigned long sLayerBufAddr[OVL_NUM][OVL_LAYER_NUM];
-	static unsigned int  sLayerBufFmt[OVL_NUM][OVL_LAYER_NUM];
-	static unsigned int  sLayerBufWidth[OVL_NUM][OVL_LAYER_NUM];
-	static unsigned int  sLayerBufHeight[OVL_NUM][OVL_LAYER_NUM];
+	static unsigned int sLayerBufFmt[OVL_NUM][OVL_LAYER_NUM];
+	static unsigned int sLayerBufWidth[OVL_NUM][OVL_LAYER_NUM];
+	static unsigned int sLayerBufHeight[OVL_NUM][OVL_LAYER_NUM];
 
 	OVL_BASIC_STRUCT ovlInfo[OVL_LAYER_NUM];
 	unsigned int flag, i, enLayerCnt;
 	unsigned int width, height, bpp, fmt;
-	char* fmtStr;
+	char *fmtStr;
 	char tag_name[30] = { '\0' };
-	memset((void*)ovlInfo, 0, sizeof(ovlInfo));
+	memset((void *)ovlInfo, 0, sizeof(ovlInfo));
 	ovl_get_info(index, ovlInfo);
 
-	//Any layer enable bit changes , new frame refreshes
+	/* Any layer enable bit changes , new frame refreshes */
 	enLayerCnt = 0;
 
 	for (i = 0; i < OVL_LAYER_NUM; i++) {
@@ -105,12 +109,12 @@ static void ddp_inout_info_tag(unsigned int index) {
 			if (sLayerBufAddr[index][i] != ovlInfo[i].addr) {
 				sLayerBufAddr[index][i] = ovlInfo[i].addr;
 				sprintf(tag_name, "OVL%dL%d_InFps", index, i);
-				met_tag_oneshot(DDP_IRQ_LAYER_FPS_ID, tag_name, i+1);
+				met_tag_oneshot(DDP_IRQ_LAYER_FPS_ID, tag_name, i + 1);
 			}
 			if (sLayerBufFmt[index][i] != ovlInfo[i].fmt) {
 				sLayerBufFmt[index][i] = ovlInfo[i].fmt;
 				sprintf(tag_name, "OVL%dL%d_Fmt_%s", index, i, fmtStr);
-				met_tag_oneshot(DDP_IRQ_LAYER_FORMAT_ID, tag_name, i+1);
+				met_tag_oneshot(DDP_IRQ_LAYER_FORMAT_ID, tag_name, i + 1);
 			}
 			if (sLayerBufWidth[index][i] != ovlInfo[i].src_w) {
 				sLayerBufWidth[index][i] = ovlInfo[i].src_w;
@@ -122,7 +126,7 @@ static void ddp_inout_info_tag(unsigned int index) {
 				sprintf(tag_name, "OVL%dL%d_Height", index, i);
 				met_tag_oneshot(DDP_IRQ_LAYER_SIZE_ID, tag_name, ovlInfo[i].src_h);
 			}
-			
+
 
 		} else {
 			sLayerBufAddr[index][i] = 0;
@@ -138,26 +142,28 @@ static void ddp_inout_info_tag(unsigned int index) {
 	return;
 }
 
-static void ddp_err_irq_met_tag(const char *name) {
+static void ddp_err_irq_met_tag(const char *name)
+{
 	met_tag_oneshot(DDP_IRQ_EER_ID, name, 0);
 	return;
 }
 
-static void met_irq_handler(DISP_MODULE_ENUM module, unsigned int reg_val) {
+static void met_irq_handler(DISP_MODULE_ENUM module, unsigned int reg_val)
+{
 	int index = 0;
 	char tag_name[30] = { '\0' };
-	//DDPERR("met_irq_handler() module=%d, val=0x%x \n", module, reg_val);
+	/* DDPERR("met_irq_handler() module=%d, val=0x%x\n", module, reg_val); */
 	switch (module) {
 	case DISP_MODULE_RDMA0:
 	case DISP_MODULE_RDMA1:
 	case DISP_MODULE_RDMA2:
 		index = module - DISP_MODULE_RDMA0;
-		if (reg_val & (1 << 1)) {
+		if (reg_val & (1 << 1))
 			ddp_disp_refresh_tag_start(index);
-		}
-		if (reg_val & (1 << 2)) {
+
+		if (reg_val & (1 << 2))
 			ddp_disp_refresh_tag_end(index);
-		}
+
 		if (reg_val & (1 << 3)) {
 			sprintf(tag_name, "rdma%d_abnormal", index);
 			ddp_err_irq_met_tag(tag_name);
@@ -171,9 +177,9 @@ static void met_irq_handler(DISP_MODULE_ENUM module, unsigned int reg_val) {
 	case DISP_MODULE_OVL0:
 	case DISP_MODULE_OVL1:
 		index = module - DISP_MODULE_OVL0;
-		if (reg_val & (1 << 1)) {
+		if (reg_val & (1 << 1))
 			ddp_inout_info_tag(index);
-		}
+
 		break;
 	default:
 		break;
@@ -181,7 +187,8 @@ static void met_irq_handler(DISP_MODULE_ENUM module, unsigned int reg_val) {
 	return;
 }
 
-void ddp_init_met_tag(int state, int rdma0_mode, int rdma1_mode) {
+void ddp_init_met_tag(int state, int rdma0_mode, int rdma1_mode)
+{
 	if ((!met_tag_on) && state) {
 		met_tag_on = state;
 		disp_register_irq_callback(met_irq_handler);
