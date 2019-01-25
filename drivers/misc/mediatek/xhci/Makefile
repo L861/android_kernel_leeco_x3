@@ -12,5 +12,3 @@ ifeq ($(CONFIG_USB_DEBUG),y)
 endif
 
 obj-y	+= xhci-mtk-power.o xhci-mtk-scheduler.o xhci-mtk.o xhci-mtk-attrs.o
-obj-$(CONFIG_USB_FUSB3000) += fusb3000.o
-obj-$(CONFIG_USB_TUSB320) += tusb320.o pi5usb320.o
