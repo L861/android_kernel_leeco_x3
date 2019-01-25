@@ -631,16 +631,7 @@ int __batt_meter_init_cust_data_from_cust_header(struct platform_device *dev)
 	batt_meter_cust_data.fg_meter_resistance = FG_METER_RESISTANCE;
 
 	/* Qmax for battery  */
-#ifdef CONFIG_MTK_MULTI_BAT_PROFILE_SUPPORT
-	batt_meter_cust_data.q_max_pos_50 = g_Q_MAX_POS_50[g_fg_battery_id];	/* Q_MAX_POS_50; */
-	batt_meter_cust_data.q_max_pos_25 = g_Q_MAX_POS_25[g_fg_battery_id];	/* Q_MAX_POS_25; */
-	batt_meter_cust_data.q_max_pos_0 = g_Q_MAX_POS_0[g_fg_battery_id];	/* Q_MAX_POS_0; */
-	batt_meter_cust_data.q_max_neg_10 = g_Q_MAX_NEG_10[g_fg_battery_id];	/* Q_MAX_NEG_10; */
-	batt_meter_cust_data.q_max_pos_50_h_current = g_Q_MAX_POS_50_H_CURRENT[g_fg_battery_id];
-	batt_meter_cust_data.q_max_pos_25_h_current = g_Q_MAX_POS_25_H_CURRENT[g_fg_battery_id];
-	batt_meter_cust_data.q_max_pos_0_h_current = g_Q_MAX_POS_0_H_CURRENT[g_fg_battery_id];
-	batt_meter_cust_data.q_max_neg_10_h_current = g_Q_MAX_NEG_10_H_CURRENT[g_fg_battery_id];
-#else
+
 	batt_meter_cust_data.q_max_pos_50 = Q_MAX_POS_50;
 	batt_meter_cust_data.q_max_pos_25 = Q_MAX_POS_25;
 	batt_meter_cust_data.q_max_pos_0 = Q_MAX_POS_0;
@@ -649,7 +640,7 @@ int __batt_meter_init_cust_data_from_cust_header(struct platform_device *dev)
 	batt_meter_cust_data.q_max_pos_25_h_current = Q_MAX_POS_25_H_CURRENT;
 	batt_meter_cust_data.q_max_pos_0_h_current = Q_MAX_POS_0_H_CURRENT;
 	batt_meter_cust_data.q_max_neg_10_h_current = Q_MAX_NEG_10_H_CURRENT;
-#endif
+
 	batt_meter_cust_data.oam_d5 = OAM_D5;	/* 1 : D5,   0: D2 */
 
 #if defined(CHANGE_TRACKING_POINT)
@@ -696,11 +687,9 @@ int __batt_meter_init_cust_data_from_cust_header(struct platform_device *dev)
 #endif				/* #if defined(FIXED_TBAT_25) */
 
 	batt_meter_cust_data.batterypseudo100 = BATTERYPSEUDO100;
-#ifdef CONFIG_MTK_MULTI_BAT_PROFILE_SUPPORT
-	batt_meter_cust_data.batterypseudo1 = g_BATTERYPSEUDO1[g_fg_battery_id];
-#else
+
 	batt_meter_cust_data.batterypseudo1 = BATTERYPSEUDO1;
-#endif
+
 
 	/* Dynamic change wake up period of battery thread when suspend */
 	batt_meter_cust_data.vbat_normal_wakeup = VBAT_NORMAL_WAKEUP;
@@ -737,11 +726,9 @@ int __batt_meter_init_cust_data_from_cust_header(struct platform_device *dev)
 #else				/* #if defined(Q_MAX_BY_CURRENT) */
 	batt_meter_cust_data.q_max_by_current = 0;
 #endif				/* #if defined(Q_MAX_BY_CURRENT) */
-#ifdef CONFIG_MTK_MULTI_BAT_PROFILE_SUPPORT
-	batt_meter_cust_data.q_max_sys_voltage = g_Q_MAX_SYS_VOLTAGE[g_fg_battery_id];
-#else
+
 	batt_meter_cust_data.q_max_sys_voltage = Q_MAX_SYS_VOLTAGE;
-#endif
+
 
 #if defined(SHUTDOWN_GAUGE0)
 	batt_meter_cust_data.shutdown_gauge0 = 1;
@@ -1123,11 +1110,9 @@ int __batt_meter_init_cust_data_from_dt(struct platform_device *dev)
 
 	batt_meter_cust_data.batterypseudo100 = BATTERYPSEUDO100;
 
-#ifdef CONFIG_MTK_MULTI_BAT_PROFILE_SUPPORT
-	batt_meter_cust_data.batterypseudo1 = g_BATTERYPSEUDO1[g_fg_battery_id];
-#else
+
 	batt_meter_cust_data.batterypseudo1 = BATTERYPSEUDO1;
-#endif
+
 
 	if (of_property_read_u32(np, "vbat_normal_wakeup", &val)) {
 		batt_meter_cust_data.vbat_normal_wakeup = (int)val;
