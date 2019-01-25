@@ -69,5 +69,6 @@ int ovl2mem_output_config(disp_mem_output_config* out);
 int ovl2mem_trigger(int blocking, void *callback, unsigned int userdata);
 void ovl2mem_wait_done();
 int ovl2mem_deinit();
+void ovl2mem_setlayernum(int layer_num);
 
 #endif
